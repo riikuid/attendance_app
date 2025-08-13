@@ -47,7 +47,6 @@ class HistoryTile extends StatelessWidget {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            // Badge tanggal
             Container(
               width: 48,
               height: 48,
@@ -83,7 +82,6 @@ class HistoryTile extends StatelessWidget {
               ),
             ),
 
-            // Detail shift
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

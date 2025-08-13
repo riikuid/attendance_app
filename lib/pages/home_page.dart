@@ -356,13 +356,13 @@ class _HomePageState extends State<HomePage> {
                                     (provider) => provider.isLoading,
                                   );
 
-                              // Tentukan dataset yang mau ditampilkan sekarang
+                              // Tentukan data yang ditampilkan
                               final items =
                                   snapshot.data ??
                                   _lastHistory ??
                                   const <Attendance>[];
 
-                              // First load: benar-benar belum ada data sama sekali
+                              // First load
                               final isFirstLoad =
                                   snapshot.connectionState ==
                                       ConnectionState.waiting &&
@@ -375,9 +375,7 @@ class _HomePageState extends State<HomePage> {
                               }
 
                               if (items.isEmpty) {
-                                // hanya tampilkan empty state kalau tidak isLoading
                                 if (isLoading) {
-                                  // sedang proses: jangan flicker ke kosong
                                   return const SizedBox.shrink();
                                 }
                                 return const Center(
@@ -389,9 +387,9 @@ class _HomePageState extends State<HomePage> {
                                 padding: EdgeInsets.symmetric(vertical: 6),
                                 itemCount: items.length,
                                 separatorBuilder:
-                                    (_, __) => const SizedBox(height: 10),
+                                    (context, i) => const SizedBox(height: 10),
                                 itemBuilder:
-                                    (_, i) => HistoryTile(item: items[i]),
+                                    (context, i) => HistoryTile(item: items[i]),
                               );
                             },
                           ),

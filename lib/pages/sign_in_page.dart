@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presence_app/theme.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import 'home_page.dart';
@@ -36,8 +37,8 @@ class SignInPage extends StatelessWidget {
                         },
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  backgroundColor: Colors.white,
-                  foregroundColor: const Color(0xFF3C4043),
+                  backgroundColor: whiteColor,
+                  foregroundColor: subtitle1TextColor,
                   minimumSize: const Size(280, 48),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   shape: RoundedRectangleBorder(
@@ -47,7 +48,7 @@ class SignInPage extends StatelessWidget {
                     color: Color(0xFFDADCE0),
                   ), // border abu tipis
                 ),
-                // Stack agar teks benar-benar center walau ada logo di kiri
+
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -61,11 +62,8 @@ class SignInPage extends StatelessWidget {
                       'Login With Google',
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color:
-                            isLoading
-                                ? Colors.black38
-                                : const Color(0xFF3C4043),
+                        fontWeight: semibold,
+                        color: isLoading ? blackColor : const Color(0xFF3C4043),
                       ),
                     ),
                   ],
@@ -76,7 +74,7 @@ class SignInPage extends StatelessWidget {
 
           if (isLoading) ...[
             ModalBarrier(
-              color: Colors.black.withOpacity(0.3),
+              color: blackColor.withOpacity(0.3),
               dismissible: false,
             ),
             const Center(

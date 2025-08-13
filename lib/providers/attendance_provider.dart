@@ -3,7 +3,7 @@ import '../services/firestore_service.dart';
 
 class AttendanceProvider with ChangeNotifier {
   final FirestoreService service;
-  bool _isLoading = false; // untuk disable tombol saat proses
+  bool _isLoading = false;
   String? _error;
 
   bool get isLoading => _isLoading;
