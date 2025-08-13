@@ -1,44 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:presence_app/data/repositories/attendance_repository.dart';
-import 'package:presence_app/presentation/cubit/attendance_cubit.dart';
-import 'package:presence_app/presentation/cubit/auth_cubit.dart';
-import 'package:presence_app/presentation/cubit/clock_cubit.dart';
-import 'package:presence_app/presentation/pages/home_page.dart';
-import 'package:presence_app/presentation/pages/sign_in_page.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:presence_app/theme.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
+
+import 'providers/auth_provider.dart';
+import 'providers/attendance_provider.dart';
+import 'providers/clock_provider.dart';
+import 'services/firestore_service.dart';
+import 'pages/sign_in_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<AttendanceRepository>(
-      create: (_) => AttendanceRepository(),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => AuthCubit()),
-          // Ambil repo dari context agar urutan dependensi benar
-          BlocProvider(
-            create: (ctx) => AttendanceCubit(ctx.read<AttendanceRepository>()),
-          ),
-          BlocProvider(create: (_) => ClockCubit()),
-        ],
-        child: MaterialApp(
-          title: 'Attendance',
-          theme: ThemeData(
-            useMaterial3: true,
-            colorSchemeSeed: const Color(0xFF0A7EA4),
-          ),
-          home: const SignInPage(),
+    final firestoreService = FirestoreService();
+    return MultiProvider(
+      providers: [
+        Provider.value(value: firestoreService),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(
+          create: (_) => AttendanceProvider(firestoreService),
         ),
+        ChangeNotifierProvider(create: (_) => ClockProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Presence App',
+        theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: primaryColor500,
+          textTheme: GoogleFonts.poppinsTextTheme(),
+        ),
+        home: const SignInPage(),
       ),
     );
   }
